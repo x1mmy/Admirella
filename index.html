@@ -613,7 +613,7 @@ footer p { font-size:0.7rem; color:rgba(239,232,216,0.3); letter-spacing:0.1em; 
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   border: 0;
-  pointer-events: none;
+  pointer-events: auto;
 }
 .reel-overlay {
   position: absolute; inset: 0; z-index: 2;
@@ -621,6 +621,7 @@ footer p { font-size:0.7rem; color:rgba(239,232,216,0.3); letter-spacing:0.1em; 
   display: flex; flex-direction: column;
   justify-content: flex-end; align-items: flex-start;
   padding: 1rem;
+  pointer-events: none;
   transition: opacity 0.35s ease;
 }
 .reel-play {
@@ -645,14 +646,7 @@ footer p { font-size:0.7rem; color:rgba(239,232,216,0.3); letter-spacing:0.1em; 
   background: rgba(184,152,152,0.85);
   padding: 0.3rem 0.55rem;
 }
-.reel-card:hover .reel-overlay { opacity: 0; }
-.reel-card:hover .reel-iframe { pointer-events: auto; }
-
-/* On touch devices: always interactive, no overlay needed */
-@media (hover: none) {
-  .reel-overlay { display: none; }
-  .reel-iframe { pointer-events: auto; }
-}
+.reel-card:hover .reel-overlay { opacity: 0.16; }
 
 .rs-foot { font-size: 0.78rem; color: var(--stone); text-align: right; }
 
@@ -770,93 +764,153 @@ nav.on-light .nav-hamburger span { background: var(--mauve-dk); }
   font-size: 0.72rem; letter-spacing: 0.22em;
 }
 
-@media (max-width: 768px) {
-  body { cursor: auto; }
-  .cursor { display: none; }
+/* Mobile-first responsive layout */
+body { cursor: auto; }
+.cursor { display: none; }
+nav { padding: 1rem 1.1rem; }
+.nav-right .nav-link,
+.nav-right .nav-cta { display: none; }
+.nav-hamburger { display: flex; }
 
-  /* NAV */
-  nav { padding: 1rem 1.2rem; }
-  .nav-right .nav-link,
-  .nav-right .nav-cta { display: none; }
-  .nav-hamburger { display: flex; }
+.hero { min-height: 100svh; padding: 0 0 var(--sp-8); }
+.hero-upper { padding: 72px 1.1rem var(--sp-3); }
+.hero-name { font-size: clamp(2.9rem, 16vw, 5.2rem); }
+.hero-ornament { width: 160px; height: 210px; opacity: 0.06; top: 9%; right: 4%; }
+.hero-lower { grid-template-columns: 1fr; margin: 0 1.1rem 0; }
+.hero-lower-cell {
+  border-right: none;
+  border-bottom: 1px solid var(--rule-dk);
+  padding: var(--sp-3) 0;
+}
+.hero-lower-cell:last-child { border-bottom: none; }
 
-  /* HERO */
-  .hero { min-height: 100svh; padding: 0 0 var(--sp-8); }
-  .hero-upper { padding: 0 1.2rem var(--sp-3); padding-top: 72px; }
-  .hero-ornament { width: 180px; height: 230px; opacity: 0.05; top: 8%; right: 4%; }
-  .hero-lower { grid-template-columns: 1fr; margin: 0 1.2rem 0; }
-  .hero-lower-cell {
-    border-right: none; border-bottom: 1px solid var(--rule-dk);
-    padding: var(--sp-3) 0; padding-left: 0; padding-right: 0;
-  }
-  .hero-lower-cell:last-child { border-bottom: none; padding-left: 0; }
+.intro {
+  grid-template-columns: 1fr;
+  gap: var(--sp-4);
+  padding: var(--sp-6) 1.1rem;
+}
+.intro-label { display: none; }
+.intro-photo-inner { min-height: 250px; }
+.intro-photo-inner::after { display: none; }
+.intro-photo-monogram { font-size: 4.8rem; }
+.intro-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 1.25rem; }
+.i-stat-num { font-size: 1.55rem; }
+.i-stat-label { font-size: 0.56rem; }
+.intro-body .pull-quote { font-size: clamp(1.32rem, 5vw, 1.88rem); margin-bottom: var(--sp-4); }
 
-  /* INTRO */
-  .intro {
-    grid-template-columns: 1fr;
-    gap: var(--sp-4);
-    padding: var(--sp-6) 1.2rem;
-  }
-  .intro-label { display: none; }
-  .intro-photo-inner { min-height: 260px; }
-  .intro-photo-inner::after { display: none; }
-  .intro-photo-monogram { font-size: 5rem; }
-  .intro-stats { grid-template-columns: repeat(3, 1fr); margin-top: 1.5rem; }
-  .i-stat-num { font-size: 1.9rem; }
-  .intro-body .pull-quote { font-size: clamp(1.4rem, 5vw, 1.9rem); margin-bottom: var(--sp-4); }
+.treatments { padding: var(--sp-6) 1.1rem; }
+.treatments-header {
+  grid-template-columns: 1fr;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-4);
+  padding-bottom: var(--sp-3);
+}
+.treatments-header-note { text-align: left; margin-left: 0; }
+.menu-item { grid-template-columns: 1.5rem 1fr auto; gap: 0.6rem; }
+.menu-num { font-size: 0.6rem; }
+.menu-name { font-size: 1rem; }
+.menu-desc { font-size: 0.75rem; }
 
-  /* TREATMENTS */
-  .treatments { padding: var(--sp-6) 1.2rem; }
-  .treatments-header { grid-template-columns: 1fr; gap: var(--sp-2); margin-bottom: var(--sp-4); padding-bottom: var(--sp-3); }
-  .treatments-header-note { text-align: left; margin-left: 0; }
+.results-strip { padding: var(--sp-6) 1.1rem; }
+.rs-grid { grid-template-columns: 1fr; }
+.rs-header { flex-direction: column; gap: 0.4rem; align-items: flex-start; }
+.rs-foot { text-align: left; }
+.reel-label { font-size: 0.55rem; letter-spacing: 0.12em; }
+
+.evening-banner {
+  grid-template-columns: 1fr;
+  gap: var(--sp-4);
+  padding: var(--sp-6) 1.1rem;
+}
+
+.reviews-section { padding: var(--sp-6) 1.1rem; }
+.reviews-header { flex-direction: column; gap: var(--sp-3); align-items: flex-start; }
+.reviews-grid { grid-template-columns: 1fr; }
+.review-card { padding: 1.5rem 1.2rem; }
+.reviews-score { gap: 0.8rem; }
+.score-num { font-size: 2.8rem; }
+
+.book-section {
+  grid-template-columns: 1fr;
+  gap: var(--sp-4);
+  padding: var(--sp-6) 1.1rem;
+}
+
+footer {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  padding: var(--sp-4) 1.1rem;
+}
+
+@media (min-width: 560px) {
+  .hero-name { font-size: clamp(3.4rem, 13vw, 5.6rem); }
   .menu-item { grid-template-columns: 2rem 1fr auto; gap: 0.75rem; }
-  .menu-name { font-size: 1.05rem; }
-  .menu-desc { font-size: 0.75rem; }
+  .i-stat-num { font-size: 1.9rem; }
+  .rs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
-  /* RESULTS STRIP */
-  .results-strip { padding: var(--sp-6) 1.2rem; }
-  .rs-grid { grid-template-columns: repeat(2, 1fr); }
-  .rs-header { flex-direction: column; gap: 0.4rem; align-items: flex-start; }
-  .rs-foot { text-align: left; }
+@media (min-width: 769px) {
+  .hero-ornament { width: 340px; height: 440px; opacity: 0.08; top: 12%; right: 6%; }
+  nav { padding: 1.2rem var(--sp-6); }
+  .nav-right .nav-link,
+  .nav-right .nav-cta { display: inline-flex; }
+  .nav-hamburger { display: none; }
 
-  /* EVENING BANNER */
+  .hero-upper { padding: 0 var(--sp-6) var(--sp-4); padding-top: 88px; }
+  .hero-lower { grid-template-columns: 1fr 1fr 1fr; margin: 0 var(--sp-6) 0; }
+  .hero-lower-cell {
+    border-bottom: none;
+    border-right: 1px solid var(--rule-dk);
+    padding: var(--sp-3) var(--sp-2) 0;
+  }
+  .hero-lower-cell:last-child { border-right: none; }
+
+  .intro {
+    grid-template-columns: 5fr 7fr;
+    gap: var(--sp-6);
+    padding: clamp(4rem,8vw,8rem) var(--sp-6);
+  }
+  .intro-label { display: block; }
+  .intro-photo-inner { min-height: 420px; }
+  .intro-photo-inner::after { display: block; }
+  .intro-photo-monogram { font-size: 7.5rem; }
+
+  .treatments { padding: clamp(3.5rem,7vw,7rem) var(--sp-6); }
+  .treatments-header { grid-template-columns: 1fr 1fr; gap: var(--sp-4); }
+  .treatments-header-note { text-align: right; margin-left: auto; }
+
+  .results-strip { padding: clamp(3rem,6vw,6rem) var(--sp-6); }
+  .reel-label { font-size: 0.62rem; letter-spacing: 0.14em; }
+
   .evening-banner {
-    grid-template-columns: 1fr;
-    gap: var(--sp-4);
-    padding: var(--sp-6) 1.2rem;
+    grid-template-columns: 3fr 2fr;
+    gap: var(--sp-6);
+    padding: clamp(3rem,6vw,6rem) var(--sp-6);
   }
 
-  /* REVIEWS */
-  .reviews-section { padding: var(--sp-6) 1.2rem; }
-  .reviews-header { flex-direction: column; gap: var(--sp-3); align-items: flex-start; }
-  .reviews-grid { grid-template-columns: 1fr; }
-  .review-card { padding: 1.5rem 1.2rem; }
+  .reviews-section { padding: clamp(3rem,6vw,6rem) var(--sp-6); }
+  .reviews-header { flex-direction: row; align-items: center; }
+  .score-num { font-size: 3.5rem; }
 
-  /* BOOK */
   .book-section {
-    grid-template-columns: 1fr;
-    gap: var(--sp-4);
-    padding: var(--sp-6) 1.2rem;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-6);
+    padding: clamp(3rem,6vw,6rem) var(--sp-6);
   }
 
-  /* FOOTER */
   footer {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--sp-2);
-    padding: var(--sp-4) 1.2rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding: var(--sp-4) var(--sp-6);
   }
 }
 
-@media (max-width: 480px) {
-  .hero-name { font-size: clamp(3rem, 18vw, 5.5rem); }
-  .intro-stats { grid-template-columns: repeat(3, 1fr); }
-  .i-stat-num { font-size: 1.6rem; }
-  .i-stat-label { font-size: 0.55rem; }
-  .menu-item { grid-template-columns: 1.5rem 1fr auto; gap: 0.6rem; }
-  .menu-num { font-size: 0.6rem; }
-  .reviews-score { gap: 0.8rem; }
-  .score-num { font-size: 2.8rem; }
+@media (min-width: 1100px) {
+  .rs-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .reviews-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 </style>
 </head>
@@ -1159,28 +1213,28 @@ nav.on-light .nav-hamburger span { background: var(--mauve-dk); }
   </div>
   <div class="rs-grid">
     <div class="reel-card">
-      <iframe class="reel-iframe" src="https://www.instagram.com/reel/DTi43q7ExoJ/embed/" loading="lazy" frameborder="0" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
+      <iframe class="reel-iframe" src="https://www.instagram.com/reel/DTi43q7ExoJ/embed/" loading="lazy" frameborder="0" scrolling="no" allowtransparency="true" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="true"></iframe>
       <div class="reel-overlay">
         <div class="reel-play"></div>
         <span class="reel-label">Keratin Lash Lift &amp; Tint</span>
       </div>
     </div>
     <div class="reel-card">
-      <iframe class="reel-iframe" src="https://www.instagram.com/reel/DXoYteLEnJM/embed/" loading="lazy" frameborder="0" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
+      <iframe class="reel-iframe" src="https://www.instagram.com/reel/DXoYteLEnJM/embed/" loading="lazy" frameborder="0" scrolling="no" allowtransparency="true" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="true"></iframe>
       <div class="reel-overlay">
         <div class="reel-play"></div>
         <span class="reel-label">Brow Lamination</span>
       </div>
     </div>
     <div class="reel-card">
-      <iframe class="reel-iframe" src="https://www.instagram.com/reel/DV8DtQdkn2J/embed/" loading="lazy" frameborder="0" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
+      <iframe class="reel-iframe" src="https://www.instagram.com/reel/DV8DtQdkn2J/embed/" loading="lazy" frameborder="0" scrolling="no" allowtransparency="true" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="true"></iframe>
       <div class="reel-overlay">
         <div class="reel-play"></div>
         <span class="reel-label">Brow Wax Transformation</span>
       </div>
     </div>
     <div class="reel-card">
-      <iframe class="reel-iframe" src="https://www.instagram.com/reel/DU2dSQrEuZJ/embed/" loading="lazy" frameborder="0" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
+      <iframe class="reel-iframe" src="https://www.instagram.com/reel/DU2dSQrEuZJ/embed/" loading="lazy" frameborder="0" scrolling="no" allowtransparency="true" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="true"></iframe>
       <div class="reel-overlay">
         <div class="reel-play"></div>
         <span class="reel-label">Men's Brow Wax</span>
@@ -1352,5 +1406,3 @@ mobileMenu.querySelectorAll('a').forEach(link => {
 </script>
 </body>
 </html>
-
-heres the html code i want you to commit and also check over it with /frontend-design skill and make sure it looks pretty. gonna cold appracoh this business to see iff they be intrested in me making a website for them as they dont have a website. alos needs to be mobile first responsive
