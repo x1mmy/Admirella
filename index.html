@@ -129,10 +129,18 @@ nav.on-light .nav-link { color: var(--stone); }
   border: 1px solid rgba(239,232,216,0.4);
   color: var(--parchment);
   padding: 0.55rem 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.3s;
 }
 nav.on-light .nav-cta { border-color: var(--mauve-dk); color: var(--mauve-dk); }
-.nav-cta:hover { background: var(--mauve-dk); border-color: var(--mauve-dk); color: var(--white); }
+nav.on-light .nav-cta:hover {
+  background: rgba(154,126,126,0.12);
+  border-color: var(--mauve-dk);
+  color: var(--mauve-dk);
+}
+nav.on-dark .nav-cta:hover { background: var(--mauve-dk); border-color: var(--mauve-dk); color: var(--white); }
 
 /* ── HERO ── */
 .hero {
