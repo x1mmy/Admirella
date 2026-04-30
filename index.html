@@ -598,37 +598,63 @@ footer p { font-size:0.7rem; color:rgba(239,232,216,0.3); letter-spacing:0.1em; 
 }
 .rs-header p { font-size:0.82rem; color:var(--stone); }
 .rs-grid {
-  display:grid; grid-template-columns:repeat(4,1fr);
-  gap:1px; background:var(--rule);
-  margin-bottom:1.5rem;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--rule);
+  margin-bottom: 1.5rem;
 }
-.rs-card {
-  background:var(--parchment);
-  aspect-ratio:4/5;
-  display:flex; align-items:flex-end;
-  padding:1rem;
-  position:relative;
-  overflow:hidden;
-  transition:background 0.3s;
+.reel-card {
+  position: relative;
+  aspect-ratio: 9/16;
+  overflow: hidden;
+  background: var(--plum);
+  cursor: pointer;
 }
-.rs-card::before {
-  content:'Before / After';
-  position:absolute; top:50%; left:50%;
-  transform:translate(-50%,-50%);
-  font-family:var(--f-display);
-  font-optical-sizing:auto;
-  font-style:italic; font-size:1rem;
-  color:var(--rule); white-space:nowrap;
+.reel-iframe {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: 0;
+  pointer-events: none;
 }
-.rs-card:hover { background:var(--cream); }
-.rs-label {
-  font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase;
-  font-weight:700; color:var(--stone);
-  background:rgba(248,243,235,0.9);
-  padding:0.35rem 0.6rem;
-  position:relative; z-index:1;
+.reel-overlay {
+  position: absolute; inset: 0; z-index: 2;
+  background: linear-gradient(to top, rgba(46,31,31,0.75) 0%, rgba(46,31,31,0.15) 55%, transparent 100%);
+  display: flex; flex-direction: column;
+  justify-content: flex-end; align-items: flex-start;
+  padding: 1rem;
+  transition: opacity 0.35s ease;
 }
-.rs-foot { font-size:0.78rem; color:var(--stone); text-align:right; }
+.reel-play {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  border: 1.5px solid rgba(255,255,255,0.5);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.35s ease;
+}
+.reel-play::after {
+  content: '';
+  border-style: solid;
+  border-width: 7px 0 7px 13px;
+  border-color: transparent transparent transparent rgba(255,255,255,0.9);
+  margin-left: 3px;
+}
+.reel-label {
+  font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-weight: 700; color: var(--white);
+  background: rgba(184,152,152,0.85);
+  padding: 0.3rem 0.55rem;
+}
+.reel-card:hover .reel-overlay { opacity: 0; }
+.reel-card:hover .reel-iframe { pointer-events: auto; }
+
+/* On touch devices: always interactive, no overlay needed */
+@media (hover: none) {
+  .reel-overlay { display: none; }
+  .reel-iframe { pointer-events: auto; }
+}
+
+.rs-foot { font-size: 0.78rem; color: var(--stone); text-align: right; }
 
 /* Reviews */
 .reviews-section {
@@ -703,16 +729,134 @@ footer p { font-size:0.7rem; color:rgba(239,232,216,0.3); letter-spacing:0.1em; 
 @keyframes fadeIn { from{opacity:0} to{opacity:1} }
 @keyframes slideUp { from{opacity:0; transform:translateY(40px)} to{opacity:1; transform:translateY(0)} }
 
-@media (max-width:768px) {
-  body { cursor:auto; }
-  .cursor { display:none; }
-  nav { padding:1rem 1.5rem; }
-  .nav-right .nav-link { display:none; }
-  .hero-lower { grid-template-columns:1fr; }
-  .hero-lower-cell { border-right:none; border-bottom:1px solid var(--rule-dk); padding-left:0; }
-  .intro, .treatments-header, .evening-banner, .book-section { grid-template-columns:1fr; gap:var(--sp-6); }
-  .treatments-header-note { text-align:left; margin-left:0; }
-  .intro, .treatments, .evening-banner, .book-section { padding:var(--sp-8) var(--sp-4); }
+/* ── Hamburger button ── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px; height: 16px;
+  background: none; border: none;
+  cursor: pointer; padding: 0;
+}
+.nav-hamburger span {
+  display: block; width: 100%; height: 1.5px;
+  background: var(--parchment);
+  transition: transform 0.3s, opacity 0.3s, background 0.4s;
+}
+nav.on-light .nav-hamburger span { background: var(--mauve-dk); }
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7.25px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7.25px) rotate(-45deg); }
+
+/* ── Mobile nav drawer ── */
+.mobile-menu {
+  display: none;
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--plum); z-index: 99;
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: var(--sp-6);
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-size: 1.1rem; letter-spacing: 0.2em; text-transform: uppercase;
+  text-decoration: none; font-weight: 600; color: var(--parchment);
+  transition: color 0.25s;
+}
+.mobile-menu a:hover { color: var(--mauve-lt); }
+.mobile-menu .mobile-cta {
+  margin-top: var(--sp-4);
+  border: 1px solid var(--mauve);
+  padding: 0.85rem 2.2rem;
+  font-size: 0.72rem; letter-spacing: 0.22em;
+}
+
+@media (max-width: 768px) {
+  body { cursor: auto; }
+  .cursor { display: none; }
+
+  /* NAV */
+  nav { padding: 1rem 1.2rem; }
+  .nav-right .nav-link,
+  .nav-right .nav-cta { display: none; }
+  .nav-hamburger { display: flex; }
+
+  /* HERO */
+  .hero { min-height: 100svh; padding: 0 0 var(--sp-8); }
+  .hero-upper { padding: 0 1.2rem var(--sp-3); padding-top: 72px; }
+  .hero-ornament { width: 180px; height: 230px; opacity: 0.05; top: 8%; right: 4%; }
+  .hero-lower { grid-template-columns: 1fr; margin: 0 1.2rem 0; }
+  .hero-lower-cell {
+    border-right: none; border-bottom: 1px solid var(--rule-dk);
+    padding: var(--sp-3) 0; padding-left: 0; padding-right: 0;
+  }
+  .hero-lower-cell:last-child { border-bottom: none; padding-left: 0; }
+
+  /* INTRO */
+  .intro {
+    grid-template-columns: 1fr;
+    gap: var(--sp-4);
+    padding: var(--sp-6) 1.2rem;
+  }
+  .intro-label { display: none; }
+  .intro-photo-inner { min-height: 260px; }
+  .intro-photo-inner::after { display: none; }
+  .intro-photo-monogram { font-size: 5rem; }
+  .intro-stats { grid-template-columns: repeat(3, 1fr); margin-top: 1.5rem; }
+  .i-stat-num { font-size: 1.9rem; }
+  .intro-body .pull-quote { font-size: clamp(1.4rem, 5vw, 1.9rem); margin-bottom: var(--sp-4); }
+
+  /* TREATMENTS */
+  .treatments { padding: var(--sp-6) 1.2rem; }
+  .treatments-header { grid-template-columns: 1fr; gap: var(--sp-2); margin-bottom: var(--sp-4); padding-bottom: var(--sp-3); }
+  .treatments-header-note { text-align: left; margin-left: 0; }
+  .menu-item { grid-template-columns: 2rem 1fr auto; gap: 0.75rem; }
+  .menu-name { font-size: 1.05rem; }
+  .menu-desc { font-size: 0.75rem; }
+
+  /* RESULTS STRIP */
+  .results-strip { padding: var(--sp-6) 1.2rem; }
+  .rs-grid { grid-template-columns: repeat(2, 1fr); }
+  .rs-header { flex-direction: column; gap: 0.4rem; align-items: flex-start; }
+  .rs-foot { text-align: left; }
+
+  /* EVENING BANNER */
+  .evening-banner {
+    grid-template-columns: 1fr;
+    gap: var(--sp-4);
+    padding: var(--sp-6) 1.2rem;
+  }
+
+  /* REVIEWS */
+  .reviews-section { padding: var(--sp-6) 1.2rem; }
+  .reviews-header { flex-direction: column; gap: var(--sp-3); align-items: flex-start; }
+  .reviews-grid { grid-template-columns: 1fr; }
+  .review-card { padding: 1.5rem 1.2rem; }
+
+  /* BOOK */
+  .book-section {
+    grid-template-columns: 1fr;
+    gap: var(--sp-4);
+    padding: var(--sp-6) 1.2rem;
+  }
+
+  /* FOOTER */
+  footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-2);
+    padding: var(--sp-4) 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-name { font-size: clamp(3rem, 18vw, 5.5rem); }
+  .intro-stats { grid-template-columns: repeat(3, 1fr); }
+  .i-stat-num { font-size: 1.6rem; }
+  .i-stat-label { font-size: 0.55rem; }
+  .menu-item { grid-template-columns: 1.5rem 1fr auto; gap: 0.6rem; }
+  .menu-num { font-size: 0.6rem; }
+  .reviews-score { gap: 0.8rem; }
+  .score-num { font-size: 2.8rem; }
 }
 </style>
 </head>
@@ -729,7 +873,17 @@ footer p { font-size:0.7rem; color:rgba(239,232,216,0.3); letter-spacing:0.1em; 
     <a href="#book" class="nav-link">Contact</a>
     <a href="https://bookings.gettimely.com/admirellabeauty/bb/book" target="_blank" class="nav-cta">Book Now</a>
   </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#treatments" class="mobile-link">Treatments</a>
+  <a href="#evenings" class="mobile-link">Hours</a>
+  <a href="#book" class="mobile-link">Contact</a>
+  <a href="https://bookings.gettimely.com/admirellabeauty/bb/book" target="_blank" class="mobile-link mobile-cta">Book Now</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -1001,13 +1155,37 @@ footer p { font-size:0.7rem; color:rgba(239,232,216,0.3); letter-spacing:0.1em; 
 <section class="results-strip">
   <div class="rs-header">
     <span class="rs-tag">Real Results</span>
-    <p>Before &amp; afters from <a href="https://instagram.com/admirellabeauty" target="_blank" style="color:var(--mauve-dk);text-decoration:none;">@admirellabeauty</a></p>
+    <p>From <a href="https://instagram.com/admirellabeauty" target="_blank" style="color:var(--mauve-dk);text-decoration:none;">@admirellabeauty</a></p>
   </div>
   <div class="rs-grid">
-    <div class="rs-card"><span class="rs-label">Keratin Lash Lift &amp; Tint</span></div>
-    <div class="rs-card"><span class="rs-label">Brow Lamination</span></div>
-    <div class="rs-card"><span class="rs-label">Brow Wax Transformation</span></div>
-    <div class="rs-card"><span class="rs-label">Men's Brow Wax</span></div>
+    <div class="reel-card">
+      <iframe class="reel-iframe" src="https://www.instagram.com/reel/DTi43q7ExoJ/embed/" loading="lazy" frameborder="0" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
+      <div class="reel-overlay">
+        <div class="reel-play"></div>
+        <span class="reel-label">Keratin Lash Lift &amp; Tint</span>
+      </div>
+    </div>
+    <div class="reel-card">
+      <iframe class="reel-iframe" src="https://www.instagram.com/reel/DXoYteLEnJM/embed/" loading="lazy" frameborder="0" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
+      <div class="reel-overlay">
+        <div class="reel-play"></div>
+        <span class="reel-label">Brow Lamination</span>
+      </div>
+    </div>
+    <div class="reel-card">
+      <iframe class="reel-iframe" src="https://www.instagram.com/reel/DV8DtQdkn2J/embed/" loading="lazy" frameborder="0" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
+      <div class="reel-overlay">
+        <div class="reel-play"></div>
+        <span class="reel-label">Brow Wax Transformation</span>
+      </div>
+    </div>
+    <div class="reel-card">
+      <iframe class="reel-iframe" src="https://www.instagram.com/reel/DU2dSQrEuZJ/embed/" loading="lazy" frameborder="0" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
+      <div class="reel-overlay">
+        <div class="reel-play"></div>
+        <span class="reel-label">Men's Brow Wax</span>
+      </div>
+    </div>
   </div>
   <p class="rs-foot">Follow <a href="https://instagram.com/admirellabeauty" target="_blank" style="color:var(--mauve-dk);text-decoration:none;">@admirellabeauty</a> to see the full portfolio.</p>
 </section>
@@ -1134,8 +1312,8 @@ footer p { font-size:0.7rem; color:rgba(239,232,216,0.3); letter-spacing:0.1em; 
 // Custom cursor
 const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove', e => {
-  [cursor.style](http://cursor.style).left = e.clientX + 'px';
-  [cursor.style.top](http://cursor.style.top)  = e.clientY + 'px';
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top  = e.clientY + 'px';
 });
 document.querySelectorAll('a, button').forEach(el => {
   el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
@@ -1153,7 +1331,23 @@ obs.observe(hero);
 // Subtle parallax on hero ornament
 const orn = document.querySelector('.hero-ornament');
 window.addEventListener('scroll', () => {
-  if (orn) [orn.style](http://orn.style).transform = `translateY(${window.scrollY * 0.15}px)`;
+  if (orn) orn.style.transform = `translateY(${window.scrollY * 0.15}px)`;
+});
+
+// Hamburger menu
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  const isOpen = mobileMenu.classList.toggle('open');
+  hamburger.classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+mobileMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+  });
 });
 </script>
 </body>
