@@ -239,6 +239,7 @@ nav.on-light .nav-cta { border-color: var(--mauve-dk); color: var(--mauve-dk); }
   position: relative;
   display: flex;
   flex-direction: column;
+  padding-left: 0;
 }
 .intro-photo {
   flex: 1;
@@ -257,6 +258,12 @@ nav.on-light .nav-cta { border-color: var(--mauve-dk); color: var(--mauve-dk); }
   align-items: center;
   justify-content: center;
   gap: 0.8rem;
+}
+.intro-photo-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 /* Offset border frame */
 .intro-photo-inner::before {
@@ -295,16 +302,17 @@ nav.on-light .nav-cta { border-color: var(--mauve-dk); color: var(--mauve-dk); }
   line-height: 1.8;
 }
 .intro-photo-label {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  transform: rotate(180deg);
+  position: static;
+  transform: none;
+  writing-mode: horizontal-tb;
   font-size: 0.6rem;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   font-weight: 700;
   color: var(--stone);
   display: block;
-  margin-top: 1.2rem;
+  margin-top: 0.7rem;
+  white-space: normal;
 }
 
 .intro-body {}
@@ -783,6 +791,7 @@ nav { padding: 1rem 1.1rem; }
   padding: var(--sp-3) 0;
 }
 .hero-lower-cell:last-child { border-bottom: none; }
+.hero-lower-cell:last-child { padding-left: 0; }
 
 .intro {
   grid-template-columns: 1fr;
@@ -790,6 +799,9 @@ nav { padding: 1rem 1.1rem; }
   padding: var(--sp-6) 1.1rem;
 }
 .intro-label { display: none; }
+.intro-photo-label {
+  margin-top: 0.7rem;
+}
 .intro-photo-inner { min-height: 250px; }
 .intro-photo-inner::after { display: none; }
 .intro-photo-monogram { font-size: 4.8rem; }
@@ -872,6 +884,15 @@ footer {
     padding: clamp(4rem,8vw,8rem) var(--sp-6);
   }
   .intro-label { display: block; }
+  .intro-photo-label {
+    position: static;
+    transform: none;
+    writing-mode: horizontal-tb;
+    text-orientation: mixed;
+    margin-top: 0.7rem;
+    letter-spacing: 0.14em;
+    white-space: normal;
+  }
   .intro-photo-inner { min-height: 420px; }
   .intro-photo-inner::after { display: block; }
   .intro-photo-monogram { font-size: 7.5rem; }
@@ -925,7 +946,7 @@ footer {
     <a href="#treatments" class="nav-link">Treatments</a>
     <a href="#evenings" class="nav-link">Hours</a>
     <a href="#book" class="nav-link">Contact</a>
-    <a href="https://bookings.gettimely.com/admirellabeauty/bb/book" target="_blank" class="nav-cta">Book Now</a>
+    <a href="https://bookings.gettimely.com/admirellabeauty/book" target="_blank" class="nav-cta">Book Now</a>
   </div>
   <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
     <span></span><span></span><span></span>
@@ -936,7 +957,7 @@ footer {
   <a href="#treatments" class="mobile-link">Treatments</a>
   <a href="#evenings" class="mobile-link">Hours</a>
   <a href="#book" class="mobile-link">Contact</a>
-  <a href="https://bookings.gettimely.com/admirellabeauty/bb/book" target="_blank" class="mobile-link mobile-cta">Book Now</a>
+  <a href="https://bookings.gettimely.com/admirellabeauty/book" target="_blank" class="mobile-link mobile-cta">Book Now</a>
 </div>
 
 <!-- HERO -->
@@ -1020,7 +1041,7 @@ footer {
       <p>Qualified Beauty Therapist · Certified in Keratin Lash Lift · Brow Lamination Specialist</p>
     </div>
 
-    <a href="https://bookings.gettimely.com/admirellabeauty/bb/book" target="_blank" class="btn-terra" style="margin-top:2rem; display:inline-block;">Book an Appointment</a>
+    <a href="https://bookings.gettimely.com/admirellabeauty/book" target="_blank" class="btn-terra" style="margin-top:2rem; display:inline-block;">Book an Appointment</a>
   </div>
 </section>
 
@@ -1333,7 +1354,7 @@ footer {
       Ready to feel<br><em>beautiful?</em>
     </h2>
     <p>Evening slots fill quickly — especially Thursday and Friday. Get in touch and Admirella will find a time that works around your schedule.</p>
-    <a href="tel:" class="btn-terra">Book Now</a>
+    <a href="https://bookings.gettimely.com/admirellabeauty/book" target="_blank" class="btn-terra">Book Now</a>
   </div>
   <div class="book-right">
     <div class="contact-block">
